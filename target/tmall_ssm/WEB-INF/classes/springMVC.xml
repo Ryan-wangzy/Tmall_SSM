@@ -16,6 +16,7 @@
     <mvc:annotation-driven/>
 
     <!--开通静态资源的访问-->
+    <!--配置springmvc的servlet的时候，使用的路径是"/"，导致静态资源在默认情况下不能访问，所以要加上这一段，允许访问。-->
     <mvc:default-servlet-handler />
 
     <!-- 视图定位 -->

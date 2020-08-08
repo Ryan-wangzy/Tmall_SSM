@@ -2,6 +2,7 @@ package com.how2java.tmall.controller;
 
 import com.how2java.tmall.pojo.Category;
 import com.how2java.tmall.service.CategoryService;
+import com.how2java.tmall.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +17,16 @@ public class CategoryController {
     CategoryService categoryService;
 
     @RequestMapping("admin_category_list")
-    public String list(Model model){
-        List<Category> cs = categoryService.list();
+    public String list(Model model, Page page){
+        //对于springmvc而言只要参数里有了，就会自动实例化并接受页面传递的参数。 如果没有参数就会实例化一个默认的对象出来。
+        List<Category> cs = categoryService.list(page);
+        int total = categoryService.total();
+        page.setTotal(total);
         model.addAttribute("cs", cs);
+        model.addAttribute("page", page);
+        // 视图定位相当于转到/WEB-INF/jsp/admin/listCategory.jsp
         return "admin/listCategory";
     }
+
+
 }

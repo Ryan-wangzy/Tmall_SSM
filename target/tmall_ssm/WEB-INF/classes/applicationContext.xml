@@ -9,7 +9,6 @@
 
 <!--    <context:annotation-config />
         使用component-scan后则可以省略上面那句话-->
-
     <context:component-scan base-package="com.how2java.tmall.service"></context:component-scan>
     <!--   导入数据库配置-->
     <context:property-placeholder location="classpath:jdbc.properties"/>
