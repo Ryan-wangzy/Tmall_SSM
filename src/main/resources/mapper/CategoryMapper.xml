@@ -14,4 +14,9 @@
     <select id="total" resultType="int">
         select count(*) from category
     </select>
+
+<!--    parameterType可写可不写，但是返回值类型resultType一定要写-->
+    <insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="Category">
+        insert into category(name) values(#{name})
+    </insert>
 </mapper>
