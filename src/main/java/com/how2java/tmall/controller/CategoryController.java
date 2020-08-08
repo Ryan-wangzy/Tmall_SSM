@@ -5,6 +5,7 @@ import com.how2java.tmall.service.CategoryService;
 import com.how2java.tmall.util.ImageUtil;
 import com.how2java.tmall.util.Page;
 import com.how2java.tmall.util.UploadedImageFile;
+import org.omg.CORBA.IMP_LIMIT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,5 +51,15 @@ public class CategoryController {
         return "redirect:/admin_category_list";
     }
 
+    @RequestMapping("admin_category_delete")
+    //当请求的参数名称(link中)和处理器形参名称一致时会将请求参数与形参进行绑定
+    public String delete(int id, HttpSession session){
+        categoryService.delete(id);
+        File imageFolder = new File(session.getServletContext().getRealPath("img/category"));
+        File file = new File(imageFolder, id+".jpg");
+        file.delete();
+
+        return "redirect:/admin_category_list";
+    }
 
 }
