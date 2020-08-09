@@ -38,4 +38,9 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.get(id);
     }
 
+    @Override
+    public void update(Category category) {
+        categoryMapper.update(category);
+    }
+
 }
