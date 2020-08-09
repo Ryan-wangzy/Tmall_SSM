@@ -45,6 +45,7 @@
     </bean>
     <!--Mybatis的SessionFactory配置-->
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <!--自动扫描pojo下的类型，使得后续resultType不用写全限定类名       -->
         <property name="typeAliasesPackage" value="com.how2java.tmall.pojo" />
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>

@@ -72,7 +72,7 @@
                         <td><input  id="name" name="name" type="text" class="form-control"></td>
                     </tr>
                     <tr>
-                        <td>分类圖片</td>
+                        <td>分类图片</td>
                         <td>
                             <input id="categoryPic" accept="image/*" type="file" name="image" />
                         </td>
