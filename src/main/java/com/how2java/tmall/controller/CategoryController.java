@@ -1,5 +1,7 @@
 package com.how2java.tmall.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.how2java.tmall.pojo.Category;
 import com.how2java.tmall.service.CategoryService;
 import com.how2java.tmall.util.ImageUtil;
@@ -27,9 +29,10 @@ public class CategoryController {
 
     @RequestMapping("admin_category_list")
     public String list(Model model, Page page){
+        PageHelper.offsetPage(page.getStart(),page.getCount());
         //对于springmvc而言只要参数里有了，就会自动实例化并接受页面传递的参数。 如果没有参数就会实例化一个默认的对象出来。
-        List<Category> cs = categoryService.list(page);
-        int total = categoryService.total();
+        List<Category> cs = categoryService.list();
+        int total = (int) new PageInfo<>(cs).getTotal();
         page.setTotal(total);
         model.addAttribute("cs", cs);
         model.addAttribute("page", page);

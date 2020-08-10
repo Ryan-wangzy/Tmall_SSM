@@ -6,14 +6,14 @@
 <mapper namespace="com.how2java.tmall.mapper.CategoryMapper">
     <select id="list" resultType="Category">
         select * from category order by id desc
-        <if test="start!=null and count!=null">
-            limit #{start}, #{count}
-        </if>
+<!--        <if test="start!=null and count!=null">-->
+<!--            limit #{start}, #{count}-->
+<!--        </if>-->
     </select>
 
-    <select id="total" resultType="int">
-        select count(*) from category
-    </select>
+<!--    <select id="total" resultType="int">-->
+<!--        select count(*) from category-->
+<!--    </select>-->
 
 <!--    parameterType可写可不写，但是返回值类型resultType一定要写-->
     <insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="Category">

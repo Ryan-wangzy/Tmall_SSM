@@ -14,14 +14,14 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryMapper categoryMapper;
 
     @Override
-    public List<Category> list(Page page) {
-        return categoryMapper.list(page);
+    public List<Category> list() {
+        return categoryMapper.list();
     }
 
-    @Override
-    public int total() {
-        return categoryMapper.total();
-    }
+//    @Override
+//    public int total() {
+//        return categoryMapper.total();
+//    }
 
     @Override
     public void add(Category category) {
