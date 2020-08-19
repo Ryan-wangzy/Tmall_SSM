@@ -8,6 +8,32 @@
 
 <script>
     $(function(){
+    	$("#name").keyup(function(){
+
+			var value = $(this).val();
+			var url = "http://localhost:8080/tmall_ssm/checkName";
+			$.get(
+					url,
+					{"name":value},
+					function(result){
+						if(result){
+							if($("#notice").hasClass("alert alert-success")){
+								$("#notice").removeClass("alert alert-success");
+								$("#notice").addClass("alert alert-danger");
+							}
+							$("span.errorMessage").html("用户名已经被使用");
+							$("div.registerErrorMessageDiv").css("visibility","visible");
+						}else {
+							 if($("#notice").hasClass("alert alert-danger")){
+								 $("#notice").removeClass("alert alert-danger");
+								 $("#notice").addClass("alert alert-success");
+							 }
+							$("span.errorMessage").html("用户名可以使用");
+							$("div.registerErrorMessageDiv").css("visibility","visible");
+						}
+					}
+			);
+		});
 
         <c:if test="${!empty msg}">
         $("span.errorMessage").html("${msg}");
@@ -48,7 +74,7 @@
 
 	<div class="registerDiv">
 		<div class="registerErrorMessageDiv">
-			<div class="alert alert-danger" role="alert">
+			<div id="notice" class="alert alert-danger" role="alert">
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
 				<span class="errorMessage"></span>
 			</div>
@@ -62,7 +88,10 @@
 			</tr>
 			<tr>
 				<td class="registerTableLeftTD">登陆名</td>
-				<td  class="registerTableRightTD"><input id="name" name="name" placeholder="会员名一旦设置成功，无法修改" > </td>
+				<td  class="registerTableRightTD"><input id="name" name="name" placeholder="会员名一旦设置成功，无法修改" >
+					<div id="checkResult"></div>
+				</td>
+
 			</tr>
 			<tr>
 				<td  class="registerTip registerTableLeftTD">设置登陆密码</td>

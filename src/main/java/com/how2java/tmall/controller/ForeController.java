@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
@@ -53,5 +54,16 @@ public class ForeController {
         }
         userService.add(user);
         return "redirect:registerSuccessPage";
+    }
+
+    @RequestMapping("checkName")
+    @ResponseBody
+    public boolean check(String name){
+        boolean exist = userService.isExist(name);
+//        System.out.println("name:"+name+","+"exist:"+exist);
+        if(exist) {
+            return true;
+        }
+        return false;
     }
 }
