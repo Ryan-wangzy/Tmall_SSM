@@ -11,7 +11,7 @@
     	$("#name").keyup(function(){
 
 			var value = $(this).val();
-			var url = "http://localhost:8080/tmall_ssm/checkName";
+			var url = "checkName";
 			$.get(
 					url,
 					{"name":value},
