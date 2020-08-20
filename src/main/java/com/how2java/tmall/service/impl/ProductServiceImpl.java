@@ -7,8 +7,10 @@ import com.how2java.tmall.pojo.Product;
 import com.how2java.tmall.pojo.ProductExample;
 import com.how2java.tmall.pojo.ProductImage;
 
+import com.how2java.tmall.service.OrderItemService;
 import com.how2java.tmall.service.ProductImageService;
 import com.how2java.tmall.service.ProductService;
+import com.how2java.tmall.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductImageService productImageService;
+
+    @Autowired
+    OrderItemService orderItemService;
+
+    @Autowired
+    ReviewService reviewService;
 
     @Override
     public void add(Product p) {
@@ -113,6 +121,22 @@ public class ProductServiceImpl implements ProductService {
             c.setProductsByRow(productsByRow);
         }
 
+    }
+
+    @Override
+    public void setSaleAndReviewNumber(Product p) {
+        int saleCount = orderItemService.getSaleCount(p.getId());
+        p.setSaleCount(saleCount);
+
+        int count = reviewService.getCount(p.getId());
+        p.setReviewCount(count);
+    }
+
+    @Override
+    public void setSaleAndReviewNumber(List<Product> ps) {
+        for (Product p : ps) {
+            setSaleAndReviewNumber(p);
+        }
     }
 
     public void setFirstProductImage(List<Product> ps) {

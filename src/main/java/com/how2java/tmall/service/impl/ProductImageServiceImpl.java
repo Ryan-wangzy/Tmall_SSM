@@ -35,7 +35,7 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
-    public List list(int pid, String type) {
+    public List<ProductImage> list(int pid, String type) {
         ProductImageExample productImageExample = new ProductImageExample();
         productImageExample.createCriteria()
                             .andPidEqualTo(pid)
