@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -65,5 +66,17 @@ public class ForeController {
             return true;
         }
         return false;
+    }
+
+    @RequestMapping("forelogin")
+    public String login(String name, String password, Model model, HttpSession session){
+        name = HtmlUtils.htmlEscape(name);
+        User user = userService.get(name, password);
+        if(null==user) {
+            model.addAttribute("msg", "账号密码错误");
+            return "fore/login";
+        }
+        session.setAttribute("user",user);
+        return "redirect:forehome";
     }
 }
