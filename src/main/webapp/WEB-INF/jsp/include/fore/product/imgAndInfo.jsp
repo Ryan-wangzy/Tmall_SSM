@@ -57,7 +57,7 @@ $(function(){
                                         $(".addCartButton").css("background-color","lightgray")
                                         $(".addCartButton").css("border-color","lightgray")
                                         $(".addCartButton").css("color","black")
-                                         
+                                        $("#cartSum").html(${cartTotalItemNumber}+Number(num))
                                     }
                                     else{
                                          

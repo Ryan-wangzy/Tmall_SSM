@@ -216,6 +216,7 @@ public class ForeController {
     }
 
     @RequestMapping("foreaddCart")
+    @ResponseBody
     public String addCart(int pid, int num, HttpSession session){
         Product p = productService.get(pid);
         User user = (User) session.getAttribute("user");
