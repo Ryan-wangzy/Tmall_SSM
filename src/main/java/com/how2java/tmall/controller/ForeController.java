@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -197,4 +198,20 @@ public class ForeController {
         return "redirect:forebuy?oiid="+orderItemID;
     }
 
+    @RequestMapping("forebuy")
+    public String buy(Model model,String[] oiid, HttpSession session){
+        List<OrderItem> ois = new ArrayList<>();
+        float total=0;
+        for(String strid:oiid){
+            int id = Integer.parseInt(strid);
+            OrderItem orderItem = orderItemService.get(id);
+            total = orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
+            ois.add(orderItem);
+        }
+        //1. session 里放的数据可以在其他页面使用
+        //2. model的数据，只能在接下来的页面使用，其他页面就不能使用了
+        session.setAttribute("ois",ois);
+        model.addAttribute("total",total);
+        return "fore/buy";
+    }
 }
