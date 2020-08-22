@@ -128,11 +128,11 @@ $(function(){
                 var bigImageURL = $(this).attr("bigImageURL");
                 img = new Image();
                 img.src = bigImageURL;
-                 
+
                 img.onload = function(){
                     $("div.img4load").append($(img));
                 };
-            });     
+            });
         }
     );
 });

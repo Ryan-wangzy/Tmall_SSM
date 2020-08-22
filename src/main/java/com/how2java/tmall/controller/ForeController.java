@@ -166,7 +166,35 @@ public class ForeController {
         productService.setSaleAndReviewNumber(ps);
         model.addAttribute("ps",ps);
         return "fore/searchResult";
+    }
 
+    @RequestMapping("forebuyone")
+    public String buyone(int pid,int num, HttpSession session){
+        Product p = productService.get(pid);
+        User user = (User) session.getAttribute("user");
+
+        int orderItemID = 0;
+        boolean found = false;
+        List<OrderItem> orderItems = orderItemService.listByUser(user.getId());
+        for(OrderItem orderItem:orderItems){
+            if(orderItem.getProduct().getId().intValue() == p.getId().intValue()){
+                orderItem.setNumber(orderItem.getNumber()+num);
+                orderItemService.update(orderItem);
+                found=true;
+                orderItemID = orderItem.getId();
+                break;
+            }
+        }
+
+        if(!found){
+            OrderItem orderItem = new OrderItem();
+            orderItem.setNumber(num);
+            orderItem.setUid(user.getId());
+            orderItem.setPid(p.getId());
+            orderItemService.add(orderItem);
+            orderItemID = orderItem.getId();
+        }
+        return "redirect:forebuy?oiid="+orderItemID;
     }
 
 }
