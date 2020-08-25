@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.how2java.tmall.comparator.*;
 import com.how2java.tmall.pojo.*;
 import com.how2java.tmall.service.*;
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -205,7 +208,7 @@ public class ForeController {
         for(String strid:oiid){
             int id = Integer.parseInt(strid);
             OrderItem orderItem = orderItemService.get(id);
-            total = orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
+            total += orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
             ois.add(orderItem);
         }
         //1. session 里放的数据可以在其他页面使用
@@ -278,6 +281,31 @@ public class ForeController {
         }
         orderItemService.delete(oiid);
         return "success";
+    }
+
+    @RequestMapping("forecreateOrder")
+    public String createOrder(Model model, Order order, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        //根据当前时间加上一个4位随机数生成订单号[0-10000)
+        String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + RandomUtils.nextInt(10000);
+        order.setOrderCode(orderCode);
+        order.setCreateDate(new Date());
+        order.setUid(user.getId());
+        order.setStatus(OrderService.waitPay);
+        List<OrderItem> ois = (List<OrderItem>) session.getAttribute("ois");
+
+        float total = orderService.add(order,ois);
+        return "redirect:forealipay?oid="+order.getId()+"&total="+total;
+    }
+
+    @RequestMapping("forepayed")
+    public String payed(Model model, int oid, float total){
+        Order order = orderService.get(oid);
+        order.setStatus(OrderService.waitDelivery);
+        order.setPayDate(new Date());
+        orderService.update(order);
+        model.addAttribute("o",order);
+        return "fore/payed";
     }
 
 }
