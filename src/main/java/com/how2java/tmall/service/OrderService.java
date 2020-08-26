@@ -19,4 +19,5 @@ public interface OrderService {
     void update(Order o);
     Order get(int id);
     List list();
+    List list(int uid, String excludedStatus);
 }
