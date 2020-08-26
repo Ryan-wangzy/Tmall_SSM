@@ -1,13 +1,17 @@
 package com.how2java.tmall.service.impl;
 
 import com.how2java.tmall.mapper.ReviewMapper;
+import com.how2java.tmall.pojo.Order;
 import com.how2java.tmall.pojo.Review;
 import com.how2java.tmall.pojo.ReviewExample;
 import com.how2java.tmall.pojo.User;
+import com.how2java.tmall.service.OrderService;
 import com.how2java.tmall.service.ReviewService;
 import com.how2java.tmall.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
@@ -18,9 +22,22 @@ public class ReviewServiceImpl implements ReviewService {
     @Autowired
     UserService userService;
 
+    @Autowired
+    OrderService orderService;
+
     @Override
     public void add(Review r) {
         reviewMapper.insert(r);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackForClassName = "Exception")
+    public void add(Review r, Order o) {
+        reviewMapper.insert(r);
+        //事务测试
+        if(false)
+            throw new RuntimeException();
+        orderService.update(o);
     }
 
     @Override
